@@ -33,7 +33,6 @@ entity SPI_Slave is
 		 dataIn : in STD_LOGIC;
 		 sslect : in STD_LOGIC;
 		 ready : out STD_LOGIC;
-		 resetOut : out STD_LOGIC;
 		 dataOut : out STD_LOGIC_VECTOR(7 downto 0)
 	     );
 end SPI_Slave;
@@ -76,7 +75,7 @@ begin
 		
 	end process;
 	
-	resetOut <= '0' --#fix, need to add that the SPI master can "reset" the VGA controller.
+	
 
 
 end SPI_Slave;
