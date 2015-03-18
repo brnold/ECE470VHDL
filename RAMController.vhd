@@ -19,7 +19,7 @@ end RAMController;
 
 architecture RAMController of RAMController is 
 	
-	type state_type is (start, newCommand, loadEntireScreen, resetState); 
+	type state_type is (start,  loadEntireScreen, resetState); 
 	signal present_state, next_state : state_type; 
 	signal  lRegS, incAddrS, clrAccS : std_logic;
 	signal regOutS : std_logic_vector(7 downto 0);
@@ -36,26 +36,27 @@ begin
 		end if;				   
 	end process;
 	
-	C1: process(present_state, SPIFlag, newData) 
+	C1: process(present_state, SPIFlag, newData, memAddrS) 
 	begin
 		case present_state is
 			when start =>
-				if SPIFlag = '1' and newData = '1' then
-					next_state <= newCommand;
+				if SPIFlag = '0' and newData = '1' then
+					next_state <= loadEntireScreen;
 				else 
 					next_state <= start;
 				end if;
 				
-			when newCommand =>
-				if regOutS = LOADWHOLESCREEN then 
-					next_state <= loadEntireScreen;
-				elsif regOutS = RESETCODE then
-					next_state <= resetState;
-				end if;
+			--when newCommand =>
+--				if regOutS = LOADWHOLESCREEN then 
+--					next_state <= loadEntireScreen;
+--				elsif regOutS = RESETCODE then
+--					next_state <= resetState;
+--				end if;
 				
 			when loadEntireScreen =>
 				if memAddrS = "0111010100110000" then --150*200 = 30,000
-					next_state <= start; 
+					next_state <= start;
+				
 				else
 					next_state <= loadEntireScreen;
 				end if;
@@ -72,6 +73,7 @@ begin
 		clrAccS <= '0';
 		if present_state = start then
 			lRegS <= '1';
+			clrAccS <= '1';
 		elsif present_state = loadEntireScreen then
 			if newData = '1' then  --if we have the new data
 				lRegS <= '1'; --load the new data to the memory
@@ -83,12 +85,12 @@ begin
 		end if;
 	end process;  
 	
-	registers : process(clk, dataIn, clr)
+	registers : process(clk, dataIn, clr, lRegS)
 	begin
 		if clr = '1' then
-			regOuts <= "00000000"; --might need to specify which bits
+			regOutS <= "00000000"; --might need to specify which bits
 		elsif(clk'event and clk = '1' and lRegS = '1') then
-			regOuts <= dataIn; --might need to specify which bits
+			regOutS <= dataIn; --might need to specify which bits
 		end if;
 	end process;
 	

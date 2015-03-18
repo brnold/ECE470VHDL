@@ -2,9 +2,9 @@
 
 #PACE: Start of PACE I/O Pin Assignments
 # Pushbuttons
-NET "btn<4>"  LOC = "F15"  ;
-NET "btn<3>"  LOC = "V10"  ;
-NET "btn<2>"  LOC = "T16"  ;
+#NET "btn<4>"  LOC = "F15"  ;
+#NET "btn<3>"  LOC = "V10"  ;
+#NET "btn<2>"  LOC = "T16"  ;
 NET "btn<1>"  LOC = "E16"  ;
 NET "btn<0>"  LOC = "R10"  ;
 
@@ -29,45 +29,24 @@ NET "ld<15>"  LOC = "P2"  ;
 # 100 MHz clock
 NET "mclk"  LOC = "E3"  ;
 
-# 7-segment displays
-NET "an<0>"  LOC = "N6"  ;
-NET "an<1>"  LOC = "M6"  ;
-NET "an<2>"  LOC = "M3"  ;
-NET "an<3>"  LOC = "N5"  ;
-NET "an<4>"  LOC = "N2"  ;
-NET "an<5>"  LOC = "N4"  ;
-NET "an<6>"  LOC = "L1"  ;
-NET "an<7>"  LOC = "M1"  ;
-NET "a_to_g<6>"  LOC = "L3"  ;
-NET "a_to_g<5>"  LOC = "N1"  ;
-NET "a_to_g<4>"  LOC = "L5"  ;
-NET "a_to_g<3>"  LOC = "L4"  ;
-NET "a_to_g<2>"  LOC = "K3"  ;
-NET "a_to_g<1>"  LOC = "M2"  ;
-NET "a_to_g<0>"  LOC = "L6"  ;
-NET "dp"  LOC = "M4"  ;
+
 
 # Slide switches
-NET "sw<0>"  LOC = "U9"  ;
-NET "sw<1>"  LOC = "U8"  ;
-NET "sw<2>"  LOC = "R7"  ;
-NET "sw<3>"  LOC = "R6"  ;
-NET "sw<4>"  LOC = "R5"  ;
-NET "sw<5>"  LOC = "V7"  ;
-NET "sw<6>"  LOC = "V6"  ;
-NET "sw<7>"  LOC = "V5"  ;
-NET "sw<8>"  LOC = "U4"  ;
-NET "sw<9>"  LOC = "V2"  ;
-NET "sw<10>"  LOC = "U2"  ;
-NET "sw<11>"  LOC = "T3"  ;
-NET "sw<12>"  LOC = "T1"  ;
-NET "sw<13>"  LOC = "R3"  ;
-NET "sw<14>"  LOC = "P3"  ;
-NET "sw<15>"  LOC = "P4"  ;
-
-# UART
-NET "RxD"  LOC = "C4"  ;
-NET "TxD"  LOC = "D4"  ;
+#NET "sw<0>"  LOC = "U9"  ;
+#NET "sw<2>"  LOC = "R7"  ;
+#NET "sw<3>"  LOC = "R6"  ;
+#NET "sw<4>"  LOC = "R5"  ;
+#NET "sw<5>"  LOC = "V7"  ;
+#NET "sw<6>"  LOC = "V6"  ;
+#NET "sw<7>"  LOC = "V5"  ;
+#NET "sw<8>"  LOC = "U4"  ;
+#NET "sw<9>"  LOC = "V2"  ;
+#NET "sw<10>"  LOC = "U2"  ;
+#NET "sw<11>"  LOC = "T3"  ;
+#NET "sw<12>"  LOC = "T1"  ;
+#NET "sw<13>"  LOC = "R3"  ;
+#NET "sw<14>"  LOC = "P3"  ;
+#NET "sw<15>"  LOC = "P4"  ;
 
 # VGA
 NET "red<0>"  LOC = "A3"  ;
@@ -86,18 +65,16 @@ NET "hsync"  LOC = "B11"  ;
 NET "vsync"  LOC = "B12"  ;
 
 ## Pmod Header JA
-#NET "JA<0>"			LOC = "B13"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L1N_T0_AD0N_15,					Sch name = JA1
-#NET "JA<1>"			LOC = "F14"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L5N_T0_AD9N_15,					Sch name = JA2
-#NET "JA<2>"			LOC = "D17"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L16N_T2_A27_15,					Sch name = JA3
+NET "JA<0>"			LOC = "B13"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L1N_T0_AD0N_15,					Sch name = JA1
+NET "JA<1>"			LOC = "F14"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L5N_T0_AD9N_15,					Sch name = JA2
+NET "JA<2>"			LOC = "D17"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L16N_T2_A27_15,					Sch name = JA3
 #NET "JA<3>"			LOC = "E17"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L16P_T2_A28_15,					Sch name = JA4
 #NET "JA<4>"			LOC = "G13"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_0_15,								Sch name = JA7
 #NET "JA<5>"			LOC = "C17"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L20N_T3_A19_15,					Sch name = JA8
 #NET "JA<6>"			LOC = "D18"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L21N_T3_A17_15,					Sch name = JA9
 #NET "JA<7>"			LOC = "E18"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L21P_T3_DQS_15,					Sch name = JA10
 
-# PS/2 PINs
-NET "PS2C"  LOC = "F4"  ;
-NET "PS2D"  LOC = "B2"  ;
+NET "JB<0>"			LOC = "G14"	| IOSTANDARD = "LVCMOS33";		#Bank = 15, Pin name = IO_L15N_T2_DQS_ADV_B_15,				Sch name = JB1
 
 #PACE: Start of PACE Area Constraints
 

@@ -18,13 +18,9 @@
 --
 -------------------------------------------------------------------------------
 
---{{ Section below this comment is automatically maintained
---   and may be overwritten
---{entity {SPI_Slave} architecture {SPI_Slave}}
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
-use IEEE.std_logic_unsigned.all;
+use IEEE.numeric_std.all;
 
 entity SPI_Slave is
 	 port(
@@ -37,45 +33,35 @@ entity SPI_Slave is
 	     );
 end SPI_Slave;
 
---}} End of automatically maintained section
-
 architecture SPI_Slave of SPI_Slave is 
 signal shifty : STD_logic_vector(7 downto 0);
-signal counter : std_logic_vector(2 downto 0);
+signal counter : unsigned(2 downto 0);
 begin
 
-	--SPI process
-	process(sclk, reset, sslect)
-	begin 
-		if(reset = '1') then
-			shifty(7 downto 0) <= "00000000";
-		elsif sslect = '1' and sclk'event and sclk = '1' then  --If we are good to load, and we have a high clock 
-			shifty(6 downto 0) <= shifty (7 downto 1);
-			shifty(7) <= dataIn;
-		end if;
-	end process;
-	
-	
-	--ready process
-	process(sclk, reset, sslect)
+	SPI : process(sclk, reset, shifty)
 	begin 
 		if(reset = '1') then
 			counter <= "000";
 			dataOut <= "00000000";
-		elsif sslect = '1' and sclk'event and sclk = '1' then 
-			counter <= counter + 1;
-		end if;
+			shifty <= "00000000";
+			
+		elsif sclk'event and sclk = '1' then
+		  
+		  -- Count up and shift in data while slave select is active
+		  if sslect = '0' then
+		    counter <= counter + 1;
+		    shifty <= shifty (6 downto 0) & dataIn;
+      	  end if;
+      
+      	-- Latch output when all done shifting
+      	if (counter = "111") then
+        	ready <= '1'; 
+        	dataOut <= shifty;
+      	else
+        	ready <= '0';
+      	end if;
 		
-		if (counter = "111") then
-			ready <= '1'; 
-			dataOut <= shifty;
-		else
-			ready <= '0';
-		end if;
-		
-	end process;
+		  end if;
+	end process SPI;
 	
-	
-
-
 end SPI_Slave;
