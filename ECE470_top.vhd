@@ -7,7 +7,7 @@ entity ECE470_top is
 	JB : in std_logic_vector(2 downto 0);
 	JC : out std_logic_vector(0 downto 0);
 	btnR : in std_logic;
-	led : out std_logic_vector(7 downto 0);
+	led : out std_logic_vector(14 downto 0);
 	btnD : in std_logic;
 	hsync, vsync : out std_logic;
 	vgaRED, vgaGreen, vgaBLue : out std_logic_vector( 3 downto 0)
@@ -45,7 +45,7 @@ architecture ECE470_top of ECE470_top is
 	end component;
 	for all: RAMController use entity work.RAMController(ramcontroller);
 
-		-- Component declaration of the "DP_RAM_150x200(dp_ram_150x200_a)" unit defined in
+	-- Component declaration of the "DP_RAM_150x200(dp_ram_150x200_a)" unit defined in
 	-- file: "./../src/DP_RAM_150x200.vhd"
 	component DP_RAM_150x200
 	port(
@@ -60,7 +60,9 @@ architecture ECE470_top of ECE470_top is
 		dinb : in STD_LOGIC_VECTOR(7 downto 0);
 		doutb : out STD_LOGIC_VECTOR(7 downto 0));
 	end component;
-	for all: DP_RAM_150x200 use entity work.DP_RAM_150x200(dp_ram_150x200_a);  
+	for all: DP_RAM_150x200 use entity work.DP_RAM_150x200(dp_ram_150x200_a);
+
+
 		
 		-- Component declaration of the "vga_800x600(behavioral)" unit defined in
 	-- file: "./../src/vga800x600.vhd"
@@ -120,7 +122,8 @@ begin
 		ready => readys,
 		dataOut => dataSPI2ControllerS
 	); 
-	led <= dataSPI2ControllerS;
+	
+	led <= memAddrS;
 	
 	RAMController_component : RAMController
 	port map(
@@ -134,7 +137,7 @@ begin
 		RAMLoad => weaS(0)
 	); 
 	
-	DP_RAM_150x200_component : DP_RAM_150x200
+	DP_RAM_component : DP_RAM_150x200
 	port map(
 		clka => Jb(1),
 		wea => weaS,

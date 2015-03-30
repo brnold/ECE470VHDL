@@ -27,9 +27,9 @@ architecture RAMController of RAMController is
 	constant LOADWHOLESCREEN : std_logic_vector (7 downto 0) := "00000001";
 	constant RESETCODE : std_logic_vector(7 downto 0) := "00000101";
 begin
-	sreg: process(clk, clr)
+	sreg: process(clk, clr, SPIFlag)
 	begin
-		if clr = '1' then
+		if clr = '1'  then
 			present_state <= start;
 		elsif(clk'event and clk = '1' )then
 			present_state <= next_state;
@@ -40,7 +40,7 @@ begin
 	begin
 		case present_state is
 			when start =>
-				if SPIFlag = '0' and newData = '1' then
+				if SPIFlag = '0' then
 					next_state <= loadEntireScreen;
 				else 
 					next_state <= start;
