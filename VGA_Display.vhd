@@ -18,17 +18,18 @@ entity VGA_Display is
 end VGA_Display;
 
 architecture VGA_Display of VGA_Display is 
-	signal hcd4, vcd4 : std_logic_vector(7 downto 0);	--divded by 64 signal
+signal hcd4, vcd4 : std_logic_vector(7 downto 0);	--divded by 64 signal 
+signal temp : std_logic_vector(17 downto 0);
+
 
 	
 	
-	signal inthcd8, intvcd8, spriteNum : integer;
 	
 	constant w: integer := 800;
 	constant h: integer := 600;	 
 	constant C1: integer := 0; 
 	constant R1: integer := 0;		
-	signal spriteon, m: std_logic;
+	signal spriteon: std_logic;
 begin 
 	
 
@@ -39,7 +40,24 @@ begin
 	
 
 	
-	RAMaddr <= hcd4 + ( vcd4 & "0") + ( vcd4 & "00") + ( vcd4 & "0000") + ( vcd4 & "0000000");
+	process(hcd4, vcd4)
+	variable rom1, rom2: STD_Logic_vector(14 downto 0);
+	begin
+		--rom1 := ( vcd4 & "0") + ( vcd4 & "00") + ( vcd4 & "0000") + ( vcd4 & "0000000");
+		rom1 := (vcd4 & "0000000") + (vcd4 & "000000" )+( vcd4 & "000");
+		rom2 := hcd4 + rom1;
+		RAMaddr <= rom2;
+	
+	end process;
+	
+	
+	
+		--RAMaddr <= hcd4 + ( vcd4 & "0") + ( vcd4 & "00") + ( vcd4 & "0000") + ( vcd4 & "0000000"); 
+		--temp <= ("0000" & hc) + (vc(7 downto 0) & "0000000000") + (vc(8 downto 0) & "000000") + (vc & "0000") + (vc & "000");
+		--RAMaddr <= temp(17 downto 3);			   
+	
+		
+
 	--
 --	process(hc, vc)
 --	begin			
