@@ -46,8 +46,7 @@ begin
 		--rom1 := ( vcd4 & "0") + ( vcd4 & "00") + ( vcd4 & "0000") + ( vcd4 & "0000000");
 		rom1 := (vcd4 & "0000000") + (vcd4 & "000000" )+( vcd4 & "000");
 		rom2 := hcd4 + rom1;
-		RAMaddr <= rom2;
-	
+		RAMaddr <= rom2 +1;
 	end process;
 	
 	

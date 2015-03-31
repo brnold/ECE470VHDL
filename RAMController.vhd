@@ -21,7 +21,7 @@ architecture RAMController of RAMController is
 	
 	type state_type is (start,  loadEntireScreen, resetState); 
 	signal present_state, next_state : state_type; 
-	signal  lRegS, incAddrS, clrAccS : std_logic;
+	signal   incAddrS, clrAccS : std_logic;
 	signal regOutS : std_logic_vector(7 downto 0);
 	signal memAddrS : std_logic_vector(14 downto 0);
 	constant LOADWHOLESCREEN : std_logic_vector (7 downto 0) := "00000001";
@@ -29,7 +29,7 @@ architecture RAMController of RAMController is
 begin
 	sreg: process(clk, clr, SPIFlag)
 	begin
-		if clr = '1'  then
+		if clr = '1' or SPIFlag = '1' then
 			present_state <= start;
 		elsif(clk'event and clk = '1' )then
 			present_state <= next_state;
@@ -67,17 +67,18 @@ begin
 	
 	C2 : process(present_state, newData)
 	begin
-		lRegS <= '0';
+		--lRegS <= '0';
 		RAMLoad <= '0';	--put the RAM high
 		incAddrS <= '0'; 
 		clrAccS <= '0';
 		if present_state = start then
-			lRegS <= '1';
+		--	lRegS <= '1';
 			clrAccS <= '1';
 		elsif present_state = loadEntireScreen then
+				RAMLoad <= '1';
 			if newData = '1' then  --if we have the new data
-				lRegS <= '1'; --load the new data to the memory
-				RAMLoad <= '1';	--put the RAM high
+			--	lRegS <= '1'; --load the new data to the memory
+				RAMLoad <= '0';	--put the RAM high
 				incAddrS <= '1';
 			end if;	
 		elsif present_state = resetState then
@@ -85,14 +86,14 @@ begin
 		end if;
 	end process;  
 	
-	registers : process(clk, dataIn, clr, lRegS)
-	begin
-		if clr = '1' then
-			regOutS <= "00000000"; --might need to specify which bits
-		elsif(clk'event and clk = '1' and lRegS = '1') then
-			regOutS <= dataIn; --might need to specify which bits
-		end if;
-	end process;
+	--registers : process(clk, dataIn, clr, lRegS)
+--	begin
+--		if clr = '1' then
+--			regOutS <= "00000000"; --might need to specify which bits
+--		elsif(clk'event and clk = '1' and lRegS = '1') then
+--			regOutS <= dataIn; --might need to specify which bits
+--		end if;
+--	end process;
 	
 	
 	accumulator: process(incAddrS, clrAccS, clr, clk) 
@@ -105,6 +106,6 @@ begin
 	end process;
 	
 	memAddr <= memAddrS;
-	dataOut <= regOuts;
+	dataOut <= dataIn;
 	
 end RAMController;
