@@ -38,7 +38,7 @@ signal shifty : STD_logic_vector(7 downto 0);
 signal counter : unsigned(2 downto 0);
 begin
 
-	SPI : process(sclk, reset, shifty)
+	SPI : process(sclk, reset, shifty, sslect)
 	begin 
 		if(reset = '1') then
 			counter <= "000";
@@ -47,20 +47,20 @@ begin
 			
 		elsif sclk'event and sclk = '1' then
 		  
-		  -- Count up and shift in data while slave select is active
-		  if sslect = '0' then
-		    counter <= counter + 1;
-		    shifty <= shifty (6 downto 0) & dataIn;
-      	  end if;
-      
-      	-- Latch output when all done shifting
-      	if (counter = "111") then
-        	ready <= '1'; 
-        	dataOut <= shifty;
-      	else
-        	ready <= '0';
-      	end if;
-		
+			  -- Count up and shift in data while slave select is active
+			  if sslect = '0' then
+			    counter <= counter + 1;
+			    shifty <= shifty (6 downto 0) & dataIn;
+	      	  end if;
+	      
+		      	-- Latch output when all done shifting
+		      	if (counter = "000") then
+		        	ready <= '1'; 
+		        	dataOut <= shifty;
+		      	else
+		        	ready <= '0';
+		      	end if;
+			
 		  end if;
 	end process SPI;
 	
